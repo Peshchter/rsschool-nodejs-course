@@ -9,7 +9,7 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-  const board = await boardsService.save({name : req.body.name, password: req.body.password, login: req.body.login});
+  const board = await boardsService.save(req.body);
   res.status(201).json(Board.toResponse(board));
 });
 
