@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const Column = require('../columns/column.model');
 
 class Board {
   constructor({
@@ -8,7 +9,11 @@ class Board {
   } = {}) {
     this.id = id;
     this.title = title;
-    this.columns = columns;
+    if (columns.length) {
+      this.columns = columns.map((item) => new Column(item));
+    } else {
+      this.columns = columns;
+    }
   }
 
   static toResponse(board) {
