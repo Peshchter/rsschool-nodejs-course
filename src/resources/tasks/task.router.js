@@ -9,6 +9,9 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
+  if (!req.body.boardId){
+    req.body.boardId = req.boardId;
+  }
   const task = await tasksService.save(req.body);
   res.status(201).json(Task.toResponse(task));
 });

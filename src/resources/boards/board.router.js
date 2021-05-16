@@ -13,7 +13,10 @@ router.route('/').post(async (req, res) => {
   res.status(201).json(Board.toResponse(board));
 });
 
-router.use('/:boardId/tasks',tasksRouter);
+router.use('/:boardId/tasks',(req, res, next)=> {
+  req.boardId = req.params.boardId;
+  next();
+}, tasksRouter );
 
 router.route('/:id').put(async (req, res) => {
   const board = await boardsService.update(req.params.id, req.body);
