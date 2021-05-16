@@ -28,6 +28,10 @@ const removeUserId = (userId) => {
 });
 };
 
+const removeOnBoard = (boardId) => {
+    tasks = tasks.filter((task) => task.boardId !== boardId);
+};
+
 const update = (id, body) => {
     const position = tasks.map( (element) => element.id ).indexOf(id);
     if (body.title) {
@@ -36,4 +40,4 @@ const update = (id, body) => {
     return tasks[position];
 };
 
-module.exports = { getAll, getById, save, remove, update, removeUserId };
+module.exports = { getAll, getById, save, remove, update, removeUserId, removeOnBoard };
