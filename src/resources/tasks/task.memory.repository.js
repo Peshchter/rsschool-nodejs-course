@@ -15,11 +15,11 @@ const save = async (params) => {
     return task;
 };
 
-const remove = (id) => {
+const remove = async (id) => {
     tasks = tasks.filter((task) => task.id !== id);
 };
 
-const removeUserId = (userId) => {
+const removeUserId = async (userId) => {
     tasks = tasks.map((task) => {
         if (task.userId === userId){
             return {...task, userId: null};
@@ -28,11 +28,11 @@ const removeUserId = (userId) => {
 });
 };
 
-const removeOnBoard = (boardId) => {
+const removeOnBoard = async (boardId) => {
     tasks = tasks.filter((task) => task.boardId !== boardId);
 };
 
-const update = (id, body) => {
+const update = async (id, body) => {
     const position = tasks.map( (element) => element.id ).indexOf(id);
     if (body.title) {
         tasks[position].title = body.title;
