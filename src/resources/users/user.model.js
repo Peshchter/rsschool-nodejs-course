@@ -2,11 +2,15 @@ const uuid = require('uuid');
 
 /**
  * @class User
+ * @property {string} id
+ * @property {string} name
+ * @property {string} login
+ * @property {string} password
  */
 class User {
   /**
    * @constructor
-   * @param {Object} [body] - request body containing required fields
+   * @param {User} [body] - request body containing required fields
    */
   constructor({
     id = uuid.v4(),
@@ -14,28 +18,16 @@ class User {
     login = 'user',
     password = 'P@55w0rd'
   } = {}) {
-    /**
-    * @property {number} id
-    */
     this.id = id;
-    /**
-    * @property {string} name
-    */
     this.name = name;
-    /**
-    * @property {string} login
-    */
     this.login = login;
-    /**
-    * @property {string} password
-    */
     this.password = password;
   }
 
 /**
  * prepare model to response
  * @param {User} user - User to response
- * @returns {...User} - fields of model to represent
+ * @returns {{ string, string, string }} { id, name, login } - fields of model to represent
  */
   static toResponse(user) {
     const { id, name, login } = user;

@@ -1,5 +1,16 @@
 const uuid = require('uuid');
 
+/**
+ * @class Task
+ * @property {string} id
+ * @property {string} title
+ * @property {number} order
+ * @property {string} description
+ * @property {string} userId
+ * @property {string} boardId
+ * @property {string} columnId
+ */
+
 class Task {
   constructor({
     id = uuid.v4(),

@@ -11,15 +11,16 @@ const User = require('./user.model');
 let users = [new User({name : "Init_user", login : 'init', password : 'pass'})];
 
 /**
- * get all users from database
+ * Get all users from database
  * @memberof UserRepo
  * @returns {User[]}
  */
 const getAll = async () => users;
 
 /**
- * get user by its ID
- * @param {number} id - ID number of user
+ * Get user by its ID
+ * @memberof UserRepo
+ * @param {string} id - ID number of user
  * @returns {User}
  */
 const getById = async (id) => {
@@ -29,7 +30,8 @@ const getById = async (id) => {
 
 /**
  * Creates the User and saves to DB
- * @param {...User} params - Object with reqiured fields for creating User
+ * @memberof UserRepo
+ * @param {...User} params - Object with required fields for creating User
  * @returns {User}
  */
 const save = async (params) => {
@@ -39,16 +41,18 @@ const save = async (params) => {
 };
 
 /**
- * removes the User from DB by his ID
- * @param {number} id - ID of User for delete
+ * Removes the User from DB by his ID
+ * @memberof UserRepo
+ * @param {string} id - ID of User for delete
  */
 const remove = (id) => {
     users = users.filter((user) => user.id !== id);
 };
 
 /**
- * update User fields in DB
- * @param {number} id - ID of User to update
+ * Update User fields in DB
+ * @memberof UserRepo
+ * @param {string} id - ID of User to update
  * @param {Object<User>} body - Object with updating fields 
  * @returns {User} - Updated User
  */
@@ -67,6 +71,6 @@ const update = (id, body) => {
 };
 
 /**
- * Exports reqiured functions
+ * Exports required functions
  */
 module.exports = { getAll, getById, save, remove, update };
