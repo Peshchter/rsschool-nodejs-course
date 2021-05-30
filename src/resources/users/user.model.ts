@@ -1,5 +1,10 @@
 const uuid = require('uuid');
 
+export interface IUserFields {
+  name: string;
+  login: string;
+  password: string;
+}
 /**
  * @class User
  * @property {string} id
@@ -7,7 +12,12 @@ const uuid = require('uuid');
  * @property {string} login
  * @property {string} password
  */
-class User {
+export class User implements IUserFields{
+  id: string;
+  login: string;
+  name: string;
+  password: string;
+
   /**
    * @constructor
    * @param {User} [body] - request body containing required fields
@@ -29,10 +39,8 @@ class User {
  * @param {User} user - User to response
  * @returns {{ string, string, string }} { id, name, login } - fields of model to represent
  */
-  static toResponse(user) {
+  static toResponse(user : User) {
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
-
-module.exports = User;

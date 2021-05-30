@@ -1,7 +1,7 @@
 /**
  * @namespace UserRepo
  */
-const User = require('./user.model');
+import {User} from './user.model';
 
 /**
  * Array of users
@@ -23,7 +23,7 @@ const getAll = async () => users;
  * @param {string} id - ID number of user
  * @returns {User}
  */
-const getById = async (id) => {
+const getById = async (id: string) => {
     const list = users.filter((user) => id === user.id);
     return list.length ? list[0] : null;
 }
@@ -34,7 +34,7 @@ const getById = async (id) => {
  * @param {...User} params - Object with required fields for creating User
  * @returns {User}
  */
-const save = async (params) => {
+const save = async (params: User) => {
     const user = new User(params);
     users.push(user);
     return user;
@@ -45,7 +45,7 @@ const save = async (params) => {
  * @memberof UserRepo
  * @param {string} id - ID of User for delete
  */
-const remove = (id) => {
+const remove = (id: string) => {
     users = users.filter((user) => user.id !== id);
 };
 
@@ -56,16 +56,18 @@ const remove = (id) => {
  * @param {Object<User>} body - Object with updating fields 
  * @returns {User} - Updated User
  */
-const update = (id, body) => {
+const update = (id: string, body: User) => {
     const position = users.map( (element) => element.id ).indexOf(id);
-    if (body.name) {
-        users[position].name = body.name;
-    }
-    if (body.login) {
-        users[position].login = body.login;
-    }
-    if (body.password) {
-        users[position].password = body.password;
+    if(position) {
+        if (body.name) {
+            users[position]!.name = body.name;
+        }
+        if (body.login) {
+            users[position]!.login = body.login;
+        }
+        if (body.password) {
+            users[position]!.password = body.password;
+        }
     }
     return users[position];
 };
