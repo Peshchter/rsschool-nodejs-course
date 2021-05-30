@@ -48,11 +48,12 @@
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
+    "dot-notation": "off",
     "import/prefer-default-export": "off",
     "node/no-missing-import": ["error", {
       "allowModules": [],
       "resolvePaths": [],
-      "tryExtensions": [".js", ".json", ".node", ".ts"]
+      "tryExtensions": [".js", ".json", ".node", ".ts", ".tsx"]
     }]
 
   },

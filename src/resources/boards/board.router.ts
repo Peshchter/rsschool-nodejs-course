@@ -18,7 +18,7 @@ router.route('/').post(async (req, res) => {
 });
 
 router.use('/:boardId/tasks',(req:Request & modifiedRequest, _res:Response, next)=> {
-  req.boardId = req.params.boardId;
+  req.boardId = req.params['boardId'];
   next();
 }, tasksRouter );
 
