@@ -1,7 +1,7 @@
 /**
  * @namespace BoardRepo
  */
-const Board = require('./board.model');
+import {Board} from './board.model';
 
 /**
  * Array of boards
@@ -23,7 +23,7 @@ const getAll = async () => boards;
  * @param {string} id - ID number of board
  * @returns {Board}
  */
-const getById = async (id) => {
+const getById = async (id : string) => {
     const list = boards.filter((board) => id === board.id);
     return list.length ? list[0] : null;
 }
@@ -34,7 +34,7 @@ const getById = async (id) => {
  * @param {...Board} params - Object with required fields for creating Board
  * @returns {Board}
  */
-const save = async (params) => {
+const save = async (params: Board) => {
     const board = new Board(params);
     boards.push(board);
     return board;
@@ -45,7 +45,7 @@ const save = async (params) => {
  * @memberof BoardRepo
  * @param {string} id - ID of Board for delete
  */
-const remove = (id) => {
+const remove = (id:string) => {
     boards = boards.filter((board) => board.id !== id);
 };
 
@@ -56,15 +56,15 @@ const remove = (id) => {
  * @param {Object<Board>} body - Object with updating fields
  * @returns {Board} - Updated Board
  */
-const update = (id, body) => {
+const update = (id:string, body: Board): Board => {
     const position = boards.map( (element) => element.id ).indexOf(id);
     if (body.title) {
-        boards[position].title = body.title;
+        boards[position]!.title = body.title;
     }
-    return boards[position];
+    return boards[position]!;
 };
 
 /**
  * Exports functions from the module
  */
-module.exports = { getAll, getById, save, remove, update };
+export { getAll, getById, save, remove, update };

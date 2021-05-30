@@ -1,14 +1,14 @@
 /**
  * @namespace TaskRepo
  */
-const Task = require('./task.model');
+import {Task} from './task.model';
 
 /**
  * Array of tasks
  * @type Task[]
  * @memberof TaskRepo
  */
-let tasks = [new Task({title : "test_task"})];
+let tasks: Task[] = [new Task({title : "test_task"})];
 
 /**
  * Get all tasks from database
@@ -23,7 +23,7 @@ const getAll = async () => tasks;
  * @param {string} id - ID number of Task
  * @returns {Task}
  */
-const getById = async (id) => {
+const getById = async (id: string) => {
     const list = tasks.filter((task) => id === task.id);
     return list.length ? list[0] : null;
 }
@@ -35,8 +35,8 @@ const getById = async (id) => {
  * @returns {Task}
  */
 
-const save = async (params) => {
-    const task = new Task({...params});
+const save = async (params : Task) => {
+    const task = new Task(params);
     tasks.push(task);
     return task;
 };
@@ -46,7 +46,7 @@ const save = async (params) => {
  * @memberof TaskRepo
  * @param {string} id - ID of Task for delete
  */
-const remove = async (id) => {
+const remove = async (id:string) => {
     tasks = tasks.filter((task) => task.id !== id);
 };
 
@@ -57,7 +57,7 @@ const remove = async (id) => {
  * @param {string} userId - ID of User for delete
  * @returns {Task} task - Updated Task
  */
-const removeUserId = async (userId) => {
+const removeUserId = async (userId:string) => {
     tasks = tasks.map((task) => {
         if (task.userId === userId){
             return {...task, userId: null};
@@ -72,7 +72,7 @@ const removeUserId = async (userId) => {
  * @param {string} boardId - ID of Board for delete
  * @returns {void}
  */
-const removeOnBoard = async (boardId) => {
+const removeOnBoard = async (boardId:string) => {
     tasks = tasks.filter((task) => task.boardId !== boardId);
 };
 
@@ -83,15 +83,15 @@ const removeOnBoard = async (boardId) => {
  * @param {Object<Task>} body - Object with updating fields
  * @returns {Task} - Updated Task
  */
-const update = async (id, body) => {
+const update = async (id:string, body: Task):Promise<Task> => {
     const position = tasks.map( (element) => element.id ).indexOf(id);
     if (body.title) {
-        tasks[position].title = body.title;
+        tasks[position]!.title = body.title;
     }
-    return tasks[position];
+    return tasks[position]!;
 };
 
 /**
  * Exports required functions from module
  */
-module.exports = { getAll, getById, save, remove, update, removeUserId, removeOnBoard };
+export { getAll, getById, save, remove, update, removeUserId, removeOnBoard };

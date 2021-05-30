@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+import * as uuid from 'uuid';
 
 export interface IUserFields {
   name: string;
@@ -14,8 +14,11 @@ export interface IUserFields {
  */
 export class User implements IUserFields{
   id: string;
+
   login: string;
+
   name: string;
+
   password: string;
 
   /**

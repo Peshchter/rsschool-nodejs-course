@@ -1,14 +1,18 @@
-const router = require('express').Router();
-const Task = require('./task.model');
-const tasksService = require('./task.service');
+import express, {Request} from 'express';
+import {Task} from './task.model';
+import * as tasksService from './task.service';
 
-router.route('/').get(async (req, res) => {
+const router = express.Router();
+type modifiedRequest = {
+  boardId?: string;
+}
+
+router.route('/').get(async (_req, res) => {
   const tasks = await tasksService.getAll();
-  // map task fields to exclude secret fields like "password"
   res.json(tasks.map(Task.toResponse));
 });
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req:Request & modifiedRequest, res) => {
   if (!req.body.boardId){
     req.body.boardId = req.boardId;
   }
@@ -35,4 +39,4 @@ router.route('/:id').get(async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,31 +1,31 @@
 /**
  * @namespace UserRepo
  */
-import {User} from './user.model';
+import {IUserFields, User} from './user.model';
 
 /**
  * Array of users
  * @type User[]
  * @memberof UserRepo
  */
-let users = [new User({name : "Init_user", login : 'init', password : 'pass'})];
+let users: User[] = [new User({name : "Init_user", login : 'init', password : 'pass'})];
 
 /**
  * Get all users from database
  * @memberof UserRepo
  * @returns {User[]}
  */
-const getAll = async () => users;
+const getAll = async ():Promise<User[]> => users;
 
 /**
  * Get user by its ID
  * @memberof UserRepo
  * @param {string} id - ID number of user
- * @returns {User}
+ * @returns {User | null}
  */
-const getById = async (id: string) => {
-    const list = users.filter((user) => id === user.id);
-    return list.length ? list[0] : null;
+const getById = async (id: string):Promise<User | null> => {
+    const list:User[] = users.filter((user) => id === user.id);
+    return list.length ? list[0]! : null;
 }
 
 /**
@@ -34,7 +34,7 @@ const getById = async (id: string) => {
  * @param {...User} params - Object with required fields for creating User
  * @returns {User}
  */
-const save = async (params: User) => {
+const save = async (params: IUserFields):Promise<User> => {
     const user = new User(params);
     users.push(user);
     return user;
@@ -45,7 +45,7 @@ const save = async (params: User) => {
  * @memberof UserRepo
  * @param {string} id - ID of User for delete
  */
-const remove = (id: string) => {
+const remove = (id: string):void => {
     users = users.filter((user) => user.id !== id);
 };
 
@@ -56,7 +56,7 @@ const remove = (id: string) => {
  * @param {Object<User>} body - Object with updating fields 
  * @returns {User} - Updated User
  */
-const update = (id: string, body: User) => {
+const update = (id: string, body: User):User => {
     const position = users.map( (element) => element.id ).indexOf(id);
     if(position) {
         if (body.name) {
@@ -69,10 +69,10 @@ const update = (id: string, body: User) => {
             users[position]!.password = body.password;
         }
     }
-    return users[position];
+    return users[position]!;
 };
 
 /**
  * Exports required functions
  */
-module.exports = { getAll, getById, save, remove, update };
+export { getAll, getById, save, remove, update };
