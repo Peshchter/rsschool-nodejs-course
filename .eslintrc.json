@@ -18,6 +18,8 @@
     "noInlineConfig": true,
     "import/resolver": {
       "node": {
+        "moduleDirectory": ["node_modules", "src/"],
+        "paths": ["src"],
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
@@ -27,7 +29,8 @@
     "plugin:node/recommended",
     "airbnb-base",
     "prettier",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript"
   ],
   "plugins": [
     "@typescript-eslint"
@@ -48,8 +51,8 @@
     "import/prefer-default-export": "off",
     "node/no-missing-import": ["error", {
       "allowModules": [],
-      "resolvePaths": ["/src"],
-      "tryExtensions": [".js", ".json", ".node"]
+      "resolvePaths": [],
+      "tryExtensions": [".js", ".json", ".node", ".ts"]
     }]
 
   },
