@@ -56,7 +56,7 @@ export function error(err: Error): void {
 }
 
 export function criticalError(text: string): void {
-    fs.writeFileSync(config.ERROR_FILE, `Critical Error: ${text}`);
+    fs.writeFileSync(config.ERROR_FILE, `Critical Error: ${text}\n`, {flag: 'a'});
 }
 
 

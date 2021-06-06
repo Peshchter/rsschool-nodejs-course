@@ -10,18 +10,12 @@ import {criticalError, error, log, ValidationError} from './common/logging';
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
-app.use(express.json());
-
-process.on('unhandledRejection', () => {
-    error(new ValidationError({status: 417, text: 'Request failed!'}));
-});
-
 process.on('uncaughtException', (err) => {
-    criticalError(`At ${Date.now()} 
-    occurred an Internal Server Error with message ${err.message}! 
-    Terminating ...`);
+    criticalError(`At ${Date.now()} occurred an Internal Server Error with message ${err.message}! Terminating ...`);
     process.exit(1);
 });
+
+app.use(express.json());
 
 app.use((req, res, next) => {
     log(req, null);
@@ -56,9 +50,7 @@ app.use('/reject', (_req, res) => {
     Promise.reject(Error('Oops!'));
     res.status(200).send('Rejection handled!');
 });
-app.use('/except', () => {
-    throw Error('Oops!');
-});
+
 app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
     if (err instanceof ValidationError) {
         res.status(err.status).send(err.text);
@@ -68,4 +60,8 @@ app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
     next(err);
 });
 
+process.on('unhandledRejection', () => {
+    error(new ValidationError({status: 417, text: 'Request failed!'}));
+});
+throw Error("oops!");
 export {app};
