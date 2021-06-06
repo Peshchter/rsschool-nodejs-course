@@ -5,12 +5,23 @@ import path from 'path';
 import YAML from 'yamljs';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
-import {log, ValidationError} from './common/logging';
+import {criticalError, error, log, ValidationError} from './common/logging';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+
+process.on('unhandledRejection', () => {
+    error(new ValidationError({status: 417, text: 'Request failed!'}));
+});
+
+process.on('uncaughtException', (err) => {
+    criticalError(`At ${Date.now()} 
+    occurred an Internal Server Error with message ${err.message}! 
+    Terminating ...`);
+    process.exit(1);
+});
 
 app.use((req, res, next) => {
     log(req, null);
@@ -20,9 +31,9 @@ app.use((req, res, next) => {
     });
 })
 
-app.use(()=>{
-    throw new ValidationError();
-});
+// app.use(()=>{
+//     throw new ValidationError();
+// });
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
@@ -34,12 +45,24 @@ app.use('/', (req, res, next) => {
     next();
 });
 
+app.use('/error/:id', (req, _res, next) => {
+    const id = +req.params.id;
+    const err = new ValidationError({status: id, text: `Occurred a handled error with status ${id}`});
+    next(err);
+});
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
-
-app.use((err: Error, _req:Request, res:Response, next:NextFunction) => {
-    if( err instanceof ValidationError) {
+app.use('/reject', (_req, res) => {
+    Promise.reject(Error('Oops!'));
+    res.status(200).send('Rejection handled!');
+});
+app.use('/except', () => {
+    throw Error('Oops!');
+});
+app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof ValidationError) {
         res.status(err.status).send(err.text);
+        error(err);
         return;
     }
     next(err);

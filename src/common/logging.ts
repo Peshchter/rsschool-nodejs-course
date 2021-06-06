@@ -1,55 +1,63 @@
 import {Request, Response} from 'express';
-import path from 'path';
 import fs from 'fs';
 import {config} from './config';
 
-const errorfile = path.resolve(__dirname, config.ERROR_FILE || 'error.log');
-let errStream;
-fs.access(errorfile, fs.constants.W_OK, (err) => {
-    if (err) {
-        errStream = process.stdout;
-    } else {
-        errStream = fs.createWriteStream(errorfile, {flags: 'a'});
-    }
-});
+const errorfile = config.ERROR_FILE;
+const errStream = fs.createWriteStream(errorfile, {flags: 'a'});;
+// fs.access(errorfile, fs.constants.W_OK, (err) => {
+//     if (err) {
+//         errStream = process.stdout;
+//     } else {
+//         errStream = fs.createWriteStream(errorfile, {flags: 'a'});
+//     }
+// });
 
-const accessfile = path.resolve(__dirname, config.ACCESS_FILE || 'access.log');
-let accessStream;
-fs.access(accessfile, fs.constants.W_OK, (err) => {
-    if (err) {
-        accessStream = process.stdout;
-    } else {
-        accessStream = fs.createWriteStream(errorfile, {flags: 'a'});
-    }
-});
+const accessfile =  config.ACCESS_FILE;
+const accessStream = fs.createWriteStream(accessfile, {flags: 'a'});;
+// fs.access(accessfile, fs.constants.W_OK, (err) => {
+//     if (err) {
+//         accessStream = process.stdout;
+//     } else {
+//         accessStream = fs.createWriteStream(accessfile, {flags: 'a'});
+//     }
+// });
 
 export function log(req: Request | null = null, res: Response | null = null): void {
     if (req) {
         const {method, url, query, body} = req;
-        accessStream.push(`Received: method: ${method} , url: ${url}, query: ${JSON.stringify(query)}, body: ${JSON.stringify(body)}`);
+        accessStream.write(`Received: method: ${method} , url: ${url}, query: ${JSON.stringify(query)}, body: ${JSON.stringify(body)} \n` as string);
     } else if (res) {
         const {statusCode} = res;
-        console.log(`Send: statusCode: ${statusCode} `);
+        accessStream.write(`Send: statusCode: ${statusCode} \n`);
     } else {
-        console.log(`info: default logging without parameters`);
+        accessStream.write(`info: default logging without parameters\n`);
     }
 }
-
 export class ValidationError extends Error {
     status: number;
 
     text: string;
 
-    constructor() {
+    constructor({
+                    status = 400,
+                    text = `Validation Error!`
+                }={}) {
         super();
-        this.status = 400;
-        this.text = `Validation Error!`
+        this.status = status;
+        this.text = text;
     }
-
+}
+export function error(err: Error): void {
+    if (err instanceof ValidationError) {
+        errStream.write(`Error: status: ${err.status}; text: ${err.text}\n`);
+        return;
+    }
+    errStream.write(`Error: ${err} \n`);
 }
 
-export function error(): void {
-    errStream.push('Error');
+export function criticalError(text: string): void {
+    fs.writeFileSync(config.ERROR_FILE, `Critical Error: ${text}`);
 }
+
 
 
