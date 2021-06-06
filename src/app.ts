@@ -11,7 +11,15 @@ const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 process.on('uncaughtException', (err) => {
-    criticalError(`At ${Date.now()} occurred an Internal Server Error with message ${err.message}! Terminating ...`);
+    criticalError(`At ${new Date().toLocaleTimeString("ru", {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+    })} occurred an Internal Server Error with message ${err.message}! Terminating ...`);
     process.exit(1);
 });
 
@@ -63,5 +71,5 @@ app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
 process.on('unhandledRejection', () => {
     error(new ValidationError({status: 417, text: 'Request failed!'}));
 });
-throw Error("oops!");
+
 export {app};
