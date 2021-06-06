@@ -4,9 +4,19 @@ import path from 'path';
 import YAML from 'yamljs';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
+import {log} from './common/logging';
+import { finished } from 'stream';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+
+app.use((req, res, next) => {
+  log(req, null);
+  next();
+  finished(res, () => {
+    log(null, res);
+  });
+})
 
 app.use(express.json());
 
