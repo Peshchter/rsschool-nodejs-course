@@ -4,6 +4,8 @@ services:
     build: .
     volumes:
       - ./src:/usr/app/src
+      - ./access.log:/usr/app/access.log
+      - ./error.log:/usr/app/error.log
     networks: 
       - inside
       - default
