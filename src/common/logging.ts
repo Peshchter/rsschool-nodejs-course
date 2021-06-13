@@ -3,7 +3,7 @@ import fs from 'fs';
 import {config} from './config';
 
 const errorfile = config.ERROR_FILE;
-const errStream = fs.createWriteStream(errorfile, {flags: 'a'});;
+const errStream = fs.createWriteStream(errorfile, {flags: 'a'});
 // fs.access(errorfile, fs.constants.W_OK, (err) => {
 //     if (err) {
 //         errStream = process.stdout;
@@ -13,7 +13,7 @@ const errStream = fs.createWriteStream(errorfile, {flags: 'a'});;
 // });
 
 const accessfile =  config.ACCESS_FILE;
-const accessStream = fs.createWriteStream(accessfile, {flags: 'a'});;
+const accessStream = fs.createWriteStream(accessfile, {flags: 'a'});
 // fs.access(accessfile, fs.constants.W_OK, (err) => {
 //     if (err) {
 //         accessStream = process.stdout;
