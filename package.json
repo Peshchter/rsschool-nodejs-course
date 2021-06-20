@@ -9,6 +9,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon -L --exitcrash src/server.ts",
+    "migrate": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run --config ./src/common/ormconfig.ts",
     "build": "tsc",
     "doc": "jsdoc -c jsdoc.json",
     "lint": "eslint --ext .js,.ts --fix src/",

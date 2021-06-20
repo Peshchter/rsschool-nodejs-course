@@ -8,7 +8,7 @@ import {Entity, Column, PrimaryColumn}  from 'typeorm';
  * @property {string} login
  * @property {string} password
  */
-@Entity()
+@Entity("users")
 export class User {
   @PrimaryColumn()
   id: string;

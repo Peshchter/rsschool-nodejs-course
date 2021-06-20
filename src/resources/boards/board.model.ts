@@ -8,7 +8,7 @@ import {Column} from '../columns/column.model';
  * @property {string} title
  * @property {Column[]} columns
  */
-@Entity()
+@Entity("boards")
 export class Board {
     @PrimaryColumn()
     id: string;
@@ -16,7 +16,10 @@ export class Board {
     @clm()
     title: string;
 
-    @clm({type: "array", nullable: true})
+    @clm({
+        type: 'jsonb',
+        nullable: true,
+    })
     columns?: Column[];
 
     constructor(params?: Partial<Board>

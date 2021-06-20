@@ -11,7 +11,7 @@ import {Entity, Column, PrimaryColumn}  from 'typeorm';
  * @property {string| null} boardId
  * @property {string| null} columnId
  */
-@Entity()
+@Entity("tasks")
 export class Task {
     @PrimaryColumn()
     id: string;
