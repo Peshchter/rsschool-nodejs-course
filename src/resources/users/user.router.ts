@@ -10,11 +10,12 @@ router.route('/').get(async (_req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-    const user:User = await usersService.save({
+    const params = {
         name: req.body.name,
         password: req.body.password,
         login: req.body.login
-    });
+    };
+    const user:User = await usersService.save(params);
     res.status(201).json(User.toResponse(user));
 });
 

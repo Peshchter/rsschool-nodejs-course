@@ -1,10 +1,6 @@
 import * as uuid from 'uuid';
+import {Entity, Column, PrimaryColumn}  from 'typeorm';
 
-export interface IUserFields {
-  name: string;
-  login: string;
-  password: string;
-}
 /**
  * @class User
  * @property {string} id
@@ -12,13 +8,18 @@ export interface IUserFields {
  * @property {string} login
  * @property {string} password
  */
-export class User implements IUserFields{
+@Entity("users")
+export class User {
+  @PrimaryColumn()
   id: string;
 
+  @Column()
   login: string;
 
+  @Column()
   name: string;
 
+  @Column()
   password: string;
 
   /**
@@ -42,8 +43,10 @@ export class User implements IUserFields{
  * @param {User} user - User to response
  * @returns {{ string, string, string }} { id, name, login } - fields of model to represent
  */
-  static toResponse(user : User) {
+  static toResponse(user : User): {id: string, name: string, login: string} {
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
+
+export type UserDTO = Omit<User, 'id'>

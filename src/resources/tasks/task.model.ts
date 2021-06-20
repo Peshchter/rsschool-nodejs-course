@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+import {Entity, Column, PrimaryColumn}  from 'typeorm';
 
 /**
  * @class Task
@@ -10,20 +11,27 @@ import * as uuid from 'uuid';
  * @property {string| null} boardId
  * @property {string| null} columnId
  */
-
+@Entity("tasks")
 export class Task {
+    @PrimaryColumn()
     id: string;
 
+    @Column()
     title: string;
 
+    @Column()
     order: number;
 
+    @Column()
     description: string;
 
+    @Column({type:"varchar",nullable: true})
     userId: string | null = null;
 
+    @Column({type:"varchar",nullable: true})
     boardId: string | null = null;
 
+    @Column({type:"varchar",nullable: true})
     columnId: string | null = null;
 
     constructor(params?: Partial<Task>
