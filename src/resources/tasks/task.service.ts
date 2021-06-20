@@ -1,4 +1,4 @@
-import * as tasksRepo from './task.memory.repository';
+import * as tasksRepo from './task.db.repository';
 import {Task} from "./task.model";
 
 const getAll = () => tasksRepo.getAll();

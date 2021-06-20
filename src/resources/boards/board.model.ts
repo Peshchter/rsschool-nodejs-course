@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+import {Entity, Column as clm, PrimaryColumn} from 'typeorm';
 import {Column} from '../columns/column.model';
 
 /**
@@ -7,20 +8,24 @@ import {Column} from '../columns/column.model';
  * @property {string} title
  * @property {Column[]} columns
  */
+@Entity()
 export class Board {
- id: string;
+    @PrimaryColumn()
+    id: string;
 
- title: string;
+    @clm()
+    title: string;
 
- columns?: Column[];
+    @clm({type: "array", nullable: true})
+    columns?: Column[];
 
-    constructor(params?:Partial<Board>
-        // {
+    constructor(params?: Partial<Board>
+                // {
                 //     id = uuid.v4(),
                 //     title = 'Board_title',
                 //     columns: [],
                 // } = {}
-                ) {
+    ) {
         this.id = uuid.v4();
         this.title = 'Board_title';
         // if (columns.length) {
