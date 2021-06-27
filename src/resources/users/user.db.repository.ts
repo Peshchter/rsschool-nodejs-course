@@ -13,7 +13,16 @@ const getById = async (id: string): Promise<User | null> => {
         return null;
     }
     return result;
-}
+};
+
+const getByLogin = async (login: string): Promise<User | null> => {
+    const userRepo = getRepository(User);
+    const result = await userRepo.findOne({where: {login}});
+    if (result === undefined) {
+        return null;
+    }
+    return result;
+};
 
 const save = async (params: UserDTO): Promise<User> => {
     const userRepo = getRepository(User);
@@ -35,4 +44,4 @@ const update = async (id: string, body: UserDTO): Promise<User> => {
 /**
  * Exports required functions
  */
-export {getAll, getById, save, remove, update};
+export {getAll, getById, getByLogin, save, remove, update};

@@ -15,4 +15,6 @@ const config = {
   ACCESS_FILE: path.join(__dirname, '../../', process.env['ACCESS_FILE'] || 'access.log')
 };
 
-export {config};
+const SALT_ROUNDS = 10;
+
+export {config, SALT_ROUNDS};

@@ -1,6 +1,8 @@
 import {Request, Response, NextFunction} from 'express'; 
 
-export function auth (_req: Request, _res: Response, next:NextFunction) {
-    console.log("check auth");
+export function auth (req: Request, _res: Response, next:NextFunction) {
+    console.log(req.header);
     next();
-}
+};
+
+

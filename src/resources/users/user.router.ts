@@ -1,6 +1,8 @@
 import express from 'express';
 import {User} from './user.model';
 import * as usersService from './user.service';
+import bcrypt from 'bcrypt';
+import {SALT_ROUNDS} from '../../common/config';
 
 const router = express.Router();
 
@@ -10,9 +12,10 @@ router.route('/').get(async (_req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
+    const passwordHash = await bcrypt.hash(req.body.password, SALT_ROUNDS);
     const params = {
         name: req.body.name,
-        password: req.body.password,
+        password: passwordHash,
         login: req.body.login
     };
     const user:User = await usersService.save(params);
