@@ -1,5 +1,7 @@
 import {getRepository} from 'typeorm';
 import {User, UserDTO} from './user.model';
+import bcrypt from 'bcrypt';
+import { SALT_ROUNDS } from '../../common/config';
 
 const getAll = async (): Promise<User[]> => {
     const userRepo = getRepository(User);
@@ -26,7 +28,8 @@ const getByLogin = async (login: string): Promise<User | null> => {
 
 const save = async (params: UserDTO): Promise<User> => {
     const userRepo = getRepository(User);
-    const user = userRepo.create(params);
+    const pass = await bcrypt.hash(params.password, SALT_ROUNDS);
+    const user = userRepo.create({...params, password: pass});
     return userRepo.save(user);
 };
 
