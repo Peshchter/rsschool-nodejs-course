@@ -1,5 +1,7 @@
 import {getRepository} from 'typeorm';
 import {User, UserDTO} from './user.model';
+import bcrypt from 'bcrypt';
+import { SALT_ROUNDS } from '../../common/config';
 
 const getAll = async (): Promise<User[]> => {
     const userRepo = getRepository(User);
@@ -13,11 +15,21 @@ const getById = async (id: string): Promise<User | null> => {
         return null;
     }
     return result;
-}
+};
+
+const getByLogin = async (login: string): Promise<User | null> => {
+    const userRepo = getRepository(User);
+    const result = await userRepo.findOne({where: {login}});
+    if (result === undefined) {
+        return null;
+    }
+    return result;
+};
 
 const save = async (params: UserDTO): Promise<User> => {
     const userRepo = getRepository(User);
-    const user = userRepo.create(params);
+    const pass = await bcrypt.hash(params.password, SALT_ROUNDS);
+    const user = userRepo.create({...params, password: pass});
     return userRepo.save(user);
 };
 
@@ -35,4 +47,4 @@ const update = async (id: string, body: UserDTO): Promise<User> => {
 /**
  * Exports required functions
  */
-export {getAll, getById, save, remove, update};
+export {getAll, getById, getByLogin, save, remove, update};
