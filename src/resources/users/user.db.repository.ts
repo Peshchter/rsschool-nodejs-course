@@ -1,11 +1,11 @@
-import {getRepository} from 'typeorm';
-import {User, UserDTO} from './user.model';
+import { getRepository } from 'typeorm';
+import { User, UserDTO } from './user.model';
 import bcrypt from 'bcrypt';
 import { SALT_ROUNDS } from '../../common/config';
 
 const getAll = async (): Promise<User[]> => {
     const userRepo = getRepository(User);
-    return userRepo.find({where: {}});
+    return userRepo.find({ where: {} });
 };
 
 const getById = async (id: string): Promise<User | null> => {
@@ -19,7 +19,7 @@ const getById = async (id: string): Promise<User | null> => {
 
 const getByLogin = async (login: string): Promise<User | null> => {
     const userRepo = getRepository(User);
-    const result = await userRepo.findOne({where: {login}});
+    const result = await userRepo.findOne({ where: { login } });
     if (result === undefined) {
         return null;
     }
@@ -29,7 +29,7 @@ const getByLogin = async (login: string): Promise<User | null> => {
 const save = async (params: UserDTO): Promise<User> => {
     const userRepo = getRepository(User);
     const pass = await bcrypt.hash(params.password, SALT_ROUNDS);
-    const user = userRepo.create({...params, password: pass});
+    const user = userRepo.create({ ...params, password: pass });
     return userRepo.save(user);
 };
 
@@ -40,11 +40,18 @@ const remove = async (id: string): Promise<void> => {
 
 const update = async (id: string, body: UserDTO): Promise<User> => {
     const userRepo = getRepository(User);
-    const result = await userRepo.update(id, body);
-    return result.raw;
+    let user = await userRepo.findOne(id);
+    if (user) {
+        await userRepo.update(id, body);
+        user = {...user, ...body};
+    } else {
+        user = await save(body);
+    }
+    return user;
+
 };
 
 /**
  * Exports required functions
  */
-export {getAll, getById, getByLogin, save, remove, update};
+export { getAll, getById, getByLogin, save, remove, update };
