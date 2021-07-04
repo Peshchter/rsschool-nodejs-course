@@ -12,7 +12,8 @@ const config = {
   JWT_SECRET_KEY: process.env['JWT_SECRET_KEY'] || 'Secret!',
   AUTH_MODE: process.env['AUTH_MODE'] === 'true',
   ERROR_FILE: path.join(__dirname, '../../', process.env['ERROR_FILE'] || 'error.log') ,
-  ACCESS_FILE: path.join(__dirname, '../../', process.env['ACCESS_FILE'] || 'access.log')
+  ACCESS_FILE: path.join(__dirname, '../../', process.env['ACCESS_FILE'] || 'access.log'),
+  USE_FASTIFY: process.env['USE_FASTIFY'] || false
 };
 
 const SALT_ROUNDS : number = 10;

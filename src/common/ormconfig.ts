@@ -24,8 +24,8 @@ export const config : ConnectionOptions= {
     migrationsRun: false,
     // migrations: [ "migrations/*.ts"],
     cli: {
-        migrationsDir: "migrations"
+        migrationsDir: "migrations/*.ts"
     }
 };
 
-export default config;
+export default { ...config, migrations:["migrations/*.ts"]};
