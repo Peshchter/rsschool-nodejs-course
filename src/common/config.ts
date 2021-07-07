@@ -16,6 +16,6 @@ const config = {
   USE_FASTIFY: Boolean( process.env['USE_FASTIFY'] === 'true')
 };
 
-const SALT_ROUNDS : number = 10;
+const SALT_ROUNDS  = 10;
 
 export {config, SALT_ROUNDS};

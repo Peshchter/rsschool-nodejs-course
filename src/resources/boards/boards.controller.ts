@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpException, Header, UseFilters, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'guards/auth.guard';
 import { BoardsService } from './boards.service';
 import { Board } from './board.model';
 import { Filter } from '../../common/filter';
-import { AuthGuard } from 'guards/auth.guard';
 
 @Controller('boards')
 @UseGuards(AuthGuard)
@@ -30,9 +30,9 @@ export class BoardsController {
     const board: Board | null = await this.boardsService.findOne(id);
     if (board) {
       return Board.toResponse(board);
-    } else {
+    } 
       throw new HttpException("Not found", HttpStatus.NOT_FOUND);
-    }
+    
   }
 
   @Put(':id')

@@ -9,7 +9,7 @@ export class Filter implements ExceptionFilter {
     res
       .status(status)
       .json({
-        status: status,
+        status,
         statusCode: status,
         timestamp: new Date().toISOString(),
         path: req.url,

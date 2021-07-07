@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, HttpStatus, HttpException, Header, UseFilters, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'guards/auth.guard';
 import { UsersService } from './users.service';
 import { User, UserDTO } from './user.model';
 import { Filter } from '../../common/filter';
-import { AuthGuard } from 'guards/auth.guard';
 
 @Controller('users')
 @UseGuards(AuthGuard)
@@ -31,9 +31,9 @@ export class UsersController {
     const user: User | null = await this.usersService.findOne(id);
     if (user) {
       return User.toResponse(user);
-    } else {
+    } 
       throw new HttpException("Not found", HttpStatus.NOT_FOUND);
-    }
+    
   }
 
   @Put(':id')

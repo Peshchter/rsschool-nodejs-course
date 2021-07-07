@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserDTO } from './user.model';
-import { TasksService } from '../tasks/tasks.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
+import { TasksService } from '../tasks/tasks.service';
+import { User, UserDTO } from './user.model';
 import { SALT_ROUNDS } from '../../common/config';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly taskService: TasksService,
-    @InjectRepository(User) private usersRepo: Repository<User> ) { };
+    @InjectRepository(User) private usersRepo: Repository<User> ) { }
 
   async create(createUserDto: UserDTO) {
     const pass = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);

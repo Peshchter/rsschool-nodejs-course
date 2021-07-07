@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
-import { User, UserDTO } from './user.model';
 import bcrypt from 'bcrypt';
+import { User, UserDTO } from './user.model';
 import { SALT_ROUNDS } from '../../common/config';
 
 const getAll = async (): Promise<User[]> => {

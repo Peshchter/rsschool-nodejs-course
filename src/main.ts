@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
 import { FastifyAdapter, NestFastifyApplication} from '@nestjs/platform-fastify';
+import { AppModule } from './app/app.module';
 import { config } from './common/config';
 import { MyLogger } from './middleware/logger';
 

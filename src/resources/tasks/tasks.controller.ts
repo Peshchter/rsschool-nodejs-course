@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpException, Header, UseFilters, UseGuards} from '@nestjs/common';
+import { AuthGuard } from 'guards/auth.guard';
 import { TasksService } from './tasks.service';
 import { Task } from './task.model';
 import { Filter } from '../../common/filter';
-import { AuthGuard } from 'guards/auth.guard';
 
 @Controller('/boards/:boardId/tasks')
 @UseGuards(AuthGuard)
@@ -30,9 +30,9 @@ export class TasksController {
     const task: Task | null = await this.tasksService.findOne(id);
     if (task) {
       return Task.toResponse(task);
-    } else {
+    } 
       throw new HttpException("Not found", HttpStatus.NOT_FOUND);
-    }
+    
   }
 
   @Put(':id')

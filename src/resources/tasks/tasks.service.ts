@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Task } from './task.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Task } from './task.model';
 
 @Injectable()
 export class TasksService {
-  constructor(@InjectRepository(Task) private tasksRepo: Repository<Task>){};
+  constructor(@InjectRepository(Task) private tasksRepo: Repository<Task>){}
   
   create(createTaskDto: Task):Promise<Task> {
     const task = this.tasksRepo.create(createTaskDto);
@@ -31,12 +31,12 @@ export class TasksService {
 
   async remove(id: string):Promise<void> {
     await this.tasksRepo.delete(id);
-    return;
+    
   }
 
   async removeOnBoard(boardId:string):Promise<void> {
     await this.tasksRepo.delete({boardId});
-    return ;
+    
   }
 
   async removeUserId(userId : string):Promise<void>{

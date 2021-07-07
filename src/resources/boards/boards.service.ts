@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Board } from './board.model';
-import { TasksService } from '../tasks/tasks.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Board } from './board.model';
+import { TasksService } from '../tasks/tasks.service';
 
 @Injectable()
 export class BoardsService {
   constructor(private readonly taskService: TasksService, 
-    @InjectRepository(Board) private boardsRepo: Repository<Board>) { };
+    @InjectRepository(Board) private boardsRepo: Repository<Board>) { }
 
   async create(createBoardDto: Board):Promise<Board> {
     const board = this.boardsRepo.create(createBoardDto);
