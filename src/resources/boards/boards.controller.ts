@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpException, Header, UseFilters, UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'guards/auth.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 import { BoardsService } from './boards.service';
 import { Board } from './board.model';
 import { Filter } from '../../common/filter';

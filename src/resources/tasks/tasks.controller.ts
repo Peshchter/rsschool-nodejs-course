@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus, HttpException, Header, UseFilters, UseGuards} from '@nestjs/common';
-import { AuthGuard } from 'guards/auth.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 import { TasksService } from './tasks.service';
 import { Task } from './task.model';
 import { Filter } from '../../common/filter';

@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BoardsModule } from 'resources/boards/boards.module';
-import { LoginController } from 'resources/login/login.controller';
+import { BoardsModule } from '../resources/boards/boards.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from '../resources/users/users.module';
@@ -12,7 +11,7 @@ import { config } from '../common/ormconfig';
     UsersModule,
     BoardsModule,
     TypeOrmModule.forRoot(config)],
-  controllers: [AppController, LoginController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
