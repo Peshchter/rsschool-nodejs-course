@@ -13,7 +13,7 @@ const config = {
   AUTH_MODE: process.env['AUTH_MODE'] === 'true',
   ERROR_FILE: path.join(__dirname, '../../', process.env['ERROR_FILE'] || 'error.log') ,
   ACCESS_FILE: path.join(__dirname, '../../', process.env['ACCESS_FILE'] || 'access.log'),
-  USE_FASTIFY: process.env['USE_FASTIFY'] || false
+  USE_FASTIFY: Boolean( process.env['USE_FASTIFY'] === 'true')
 };
 
 const SALT_ROUNDS : number = 10;

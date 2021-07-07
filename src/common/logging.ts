@@ -33,6 +33,11 @@ export function log(req: Request | null = null, res: Response | null = null): vo
         accessStream.write(`info: default logging without parameters\n`);
     }
 }
+
+export function fileWrite(message : string) {
+    accessStream.write(message);
+}
+
 export class ValidationError extends Error {
     status: number;
 

@@ -1,34 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { Task } from './task.model';
-import * as tasksRepo from './task.db.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-  create(createTaskDto: Task) {
-    return tasksRepo.save(createTaskDto);
+  constructor(@InjectRepository(Task) private tasksRepo: Repository<Task>){};
+  
+  create(createTaskDto: Task):Promise<Task> {
+    const task = this.tasksRepo.create(createTaskDto);
+    return this.tasksRepo.save(task);
   }
 
-  findAll() {
-    return tasksRepo.getAll();
+  findAll():Promise<Task[]> {    
+    return this.tasksRepo.find({where: {}});
   }
 
-  findOne(id: string) {
-    return tasksRepo.getById(id);
+  async findOne(id: string) :Promise<Task|null> {
+    const result = await this.tasksRepo.findOne(id);
+    if (result === undefined) {
+        return null;
+    }
+    return result;
   }
 
-  update(id: string, updateTaskDto: Task) {
-    return tasksRepo.update(id, updateTaskDto);
+  async update(id: string, updateTaskDto: Task):Promise<Task>  {
+    const result = await this.tasksRepo.update(id, updateTaskDto);
+    return result.raw;
   }
 
-  remove(id: string) {
-    return tasksRepo.remove(id);
+  async remove(id: string):Promise<void> {
+    await this.tasksRepo.delete(id);
+    return;
   }
 
-  removeOnBoard(boardId:string) {
-    return tasksRepo.removeOnBoard(boardId);
+  async removeOnBoard(boardId:string):Promise<void> {
+    await this.tasksRepo.delete({boardId});
+    return ;
   }
 
-  removeUserId(userId : string){
-    return tasksRepo.removeUserId(userId);
+  async removeUserId(userId : string):Promise<void>{
+    let list = await this.tasksRepo.find({userId});
+    list = list.map(
+        (e)=> ({...e, userId: null }));
+    await this.tasksRepo.save(list);
   }
 }

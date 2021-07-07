@@ -1,34 +1,54 @@
 import { Injectable } from '@nestjs/common';
-import { UserDTO } from './user.model';
-import * as usersRepo from './user.db.repository';
+import { User, UserDTO } from './user.model';
 import { TasksService } from '../tasks/tasks.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import bcrypt from 'bcrypt';
+import { SALT_ROUNDS } from '../../common/config';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly taskService: TasksService) { };
+  constructor(private readonly taskService: TasksService,
+    @InjectRepository(User) private usersRepo: Repository<User> ) { };
 
-  create(createUserDto: UserDTO) {
-    return usersRepo.save(createUserDto);
+  async create(createUserDto: UserDTO) {
+    const pass = await bcrypt.hash(createUserDto.password, SALT_ROUNDS);
+    return this.usersRepo.save(new User({ ...createUserDto, password: pass }));
   }
 
   findAll() {
-    return usersRepo.getAll();
+    return this.usersRepo.find({ where: {} });
   }
 
-  findOne(id: string) {
-    return usersRepo.getById(id);
+  async findOne(id: string) {
+    const result = await this.usersRepo.findOne(id);
+    if (result === undefined) {
+        return null;
+    }
+    return result;
   }  
   
-  findByLogin(login: string) {
-    return usersRepo.getByLogin(login);
+  async findByLogin(login: string) {
+    const result = await this.usersRepo.findOne({ where: { login } });
+    if (result === undefined) {
+        return null;
+    }
+    return result;
   }
 
-  update(id: string, updateUserDto: UserDTO) {
-    return usersRepo.update(id, updateUserDto);
+  async update(id: string, updateUserDto: UserDTO) {
+    let user = await this.usersRepo.findOne(id);
+    if (user) {
+        await this.usersRepo.update(id, updateUserDto);
+        user = {...user, ...updateUserDto};
+    } else {
+        user = await this.create(updateUserDto);
+    }
+    return user;
   }
 
   async remove(id: string) {
     await this.taskService.removeUserId(id);
-    return usersRepo.remove(id);
+    return this.usersRepo.delete(id);
   }
 }
