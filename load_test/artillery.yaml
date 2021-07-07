@@ -1,0 +1,14 @@
+config:
+  target: "http://localhost:4000"
+  phases:
+    - duration: 10
+      arrivalRate: 500
+      name: Sustained load
+scenarios:
+  - name: "users"
+    flow:
+      - get:
+          url: "/users"
+          headers:
+            authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOGM0NDhkMS00N2QwLTQ1MWUtOTZlMy0xZWYyNDBhZTBmN2UiLCJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjI1NDEyMzM3fQ.hyBLh63SDUkLXIqP-7X2OrtwXVz79TPf1XjMs01bJUE"
+      
