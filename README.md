@@ -1,26 +1,4 @@
-# RS School REST service
-
-## Prerequisites
-
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Docker - [Download & Install Docker](https://www.docker.com/) 
-
-## Downloading
-
-```
-git clone https://github.com/Peshchter/rsschool-nodejs-course
-```
-
-## Building the Docker image
-
-```
-docker build .
-```
-
-## Running application
-
-```
-docker compose up
-```
-
-After starting the app on port (4000 as default) you can use the API for you purpose.
+# Fastify vs Express comparison
+| Fastify 	| Express 	|
+|-	|-	|
+| All virtual users finished<br>Summary report @ 18:06:23(+0400) 2021-07-07<br>  Scenarios launched:  500<br>  Scenarios completed: 500<br>  Requests completed:  2500<br>  Mean response/sec: 229.78<br>  Response time (msec):<br>    min: 2<br>    max: 2059<br>    median: 65<br>    p95: 1647.5<br>    p99: 1916<br>  Scenario counts:<br>    users: 500 (100%)<br>  Codes:<br>    200: 2000<br>    201: 500 	| All virtual users finished<br>Summary report @ 18:07:24(+0400) 2021-07-07<br>  Scenarios launched:  500<br>  Scenarios completed: 500<br>  Requests completed:  2500<br>  Mean response/sec: 212.4<br>  Response time (msec):<br>    min: 17<br>    max: 2364<br>    median: 426.5<br>    p95: 1951.5<br>    p99: 2281<br>  Scenario counts:<br>    users: 500 (100%)<br>  Codes:<br>    200: 2000<br>    201: 500 	|
