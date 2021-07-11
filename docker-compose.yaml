@@ -16,7 +16,7 @@ services:
     environment:
       - PORT=${PORT}
     restart: always
-    command: sh -c './wait-for.sh ${POSTGRES_HOST}:${POSTGRES_PORT} -- npm run migrate && npm start'
+    command: sh -c './wait-for.sh ${POSTGRES_HOST}:${POSTGRES_PORT} -- npm run migrate && npm run start:nest-dev'
 
   postgres:
     build: ./database/

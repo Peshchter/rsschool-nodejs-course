@@ -29,7 +29,7 @@ export class Task {
     userId: string | null = null;
 
     @Column({type:"varchar",nullable: true})
-    boardId: string | null = null;
+    boardId: string | null | undefined = null;
 
     @Column({type:"varchar",nullable: true})
     columnId: string | null = null;

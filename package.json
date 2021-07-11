@@ -9,12 +9,15 @@
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon -L --exitcrash src/server.ts",
+    "start:nest": "nest start src/main.ts",
+    "start:nest-dev": "nest start src/main.ts --watch",
     "migrate": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run --config ./src/common/ormconfig.ts",
     "build": "tsc",
     "doc": "jsdoc -c jsdoc.json",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
+    "artillery" : "artillery run ./load_test/artillery.yaml"
   },
   "keywords": [
     "rs",
@@ -46,6 +49,11 @@
     ]
   },
   "dependencies": {
+    "@nestjs/common": "^7.6.18",
+    "@nestjs/core": "^7.6.18",
+    "@nestjs/platform-express": "^7.6.18",
+    "@nestjs/platform-fastify": "^7.6.18",
+    "@nestjs/typeorm": "^7.1.5",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "cross-env": "7.0.3",
@@ -54,12 +62,14 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.1.0",
     "swagger-ui-express": "4.1.6",
     "typeorm": "^0.2.34",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"
   },
   "devDependencies": {
+    "@nestjs/mapped-types": "^0.4.1",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.12",
     "@types/jsonwebtoken": "^8.5.2",
@@ -69,6 +79,7 @@
     "@types/yamljs": "^0.2.31",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
+    "artillery": "^1.7.6",
     "chai": "4.3.4",
     "debug": "4.3.1",
     "dirty-chai": "2.0.1",

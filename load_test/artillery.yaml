@@ -1,0 +1,39 @@
+config:
+  target: "http://localhost:4000"
+  phases:
+    - duration: 5
+      arrivalRate: 100
+      name: Sustained load
+scenarios:
+  - name: "users"
+    flow:
+      - get:
+            headers:
+              authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOGM0NDhkMS00N2QwLTQ1MWUtOTZlMy0xZWYyNDBhZTBmN2UiLCJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjI1NDEyMzM3fQ.hyBLh63SDUkLXIqP-7X2OrtwXVz79TPf1XjMs01bJUE"
+            url: "/users"
+      - post:
+            headers:
+              authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOGM0NDhkMS00N2QwLTQ1MWUtOTZlMy0xZWYyNDBhZTBmN2UiLCJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjI1NDEyMzM3fQ.hyBLh63SDUkLXIqP-7X2OrtwXVz79TPf1XjMs01bJUE"
+            url: "/users"
+            json:
+              login: "testing{{ $randomString(8) }}"
+              name: "testing{{ $randomString(8) }}"
+              password: "123456"
+            capture:
+              - json: $.id
+                as: "id"
+      - get:
+            headers:
+              authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOGM0NDhkMS00N2QwLTQ1MWUtOTZlMy0xZWYyNDBhZTBmN2UiLCJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjI1NDEyMzM3fQ.hyBLh63SDUkLXIqP-7X2OrtwXVz79TPf1XjMs01bJUE"
+            url: "/users/{{ id }}"
+      - put: 
+            headers:
+              authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOGM0NDhkMS00N2QwLTQ1MWUtOTZlMy0xZWYyNDBhZTBmN2UiLCJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjI1NDEyMzM3fQ.hyBLh63SDUkLXIqP-7X2OrtwXVz79TPf1XjMs01bJUE"
+            url: "/users/{{ id }}"
+            json:
+              login: "test{{ $randomString(8) }}"
+              name: "test{{ $randomString(8) }}"
+      - delete: 
+            headers:
+              authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOGM0NDhkMS00N2QwLTQ1MWUtOTZlMy0xZWYyNDBhZTBmN2UiLCJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNjI1NDEyMzM3fQ.hyBLh63SDUkLXIqP-7X2OrtwXVz79TPf1XjMs01bJUE"
+            url: "/users/{{ id }}"
